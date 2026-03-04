@@ -1,109 +1,168 @@
-# Inkslot - Tattoo Appointment System
+# InkSlot — Tattoo Shop Booking System
 
-IT342 Capstone Project - G4 Leonardo
+> A full-stack tattoo shop booking platform that allows guests to browse artist profiles and book appointments without mandatory registration, while providing artists and admins with secure dashboards to manage bookings, profiles, and schedules.
 
-Inkslot is a complete tattoo booking platform that connects clients with tattoo artists. Clients can browse artist portfolios, book appointments, upload design references, process payments, and receive confirmations. Artists/admins manage schedules, appointments, and client files.
+---
 
 ## Tech Stack
 
-| Layer        | Technology                          |
-|--------------|-------------------------------------|
-| Backend      | Spring Boot 3.x, Spring Security, Spring Data JPA |
-| Frontend     | React 18 + Vite + React Router      |
-| Database     | PostgreSQL                          |
-| Auth         | JWT + Google OAuth2                 |
-| Payments     | Stripe (Sandbox)                    |
-| File Storage | Local storage                       |
-| Email        | SMTP (Mailtrap/Gmail)               |
-| Real-time    | WebSocket (STOMP)                   |
+| Layer | Technology | Version |
+|-------|-----------|---------|
+| Backend Framework | Spring Boot | 4.0.3 |
+| Backend Language | Java | 21 (LTS) |
+| Security | Spring Security + JJWT | 7.1.0 |
+| ORM | Spring Data JPA / Hibernate | 6.5.x |
+| Database | PostgreSQL (Supabase) | 17 |
+| Web Frontend | React + Vite | 19.2.0 |
+| Web Styling | CSS (custom) | — |
+| HTTP Client | Axios | 1.7.x |
+| Mobile Language | Kotlin | 2.3.0 |
+| Mobile UI | XML-Based Layouts (Android Views) | API Level 34 |
+| Mobile HTTP | Retrofit 2 + OkHttp | 2.11.x |
+| Build (Backend) | Maven | 3.9.9 |
+| Build (Web) | Vite + npm | 6.0.x |
+| Build (Mobile) | Gradle | 9.0.x |
 
-## Features
-
-Authentication & Security
-- JWT Authentication, BCrypt passwords
-- User Registration/Login/Logout
-- /me endpoint
-
-Role-Based Access Control
-- GUEST - Browse artists/services (no login)
-- CLIENT - Book appointments, upload files, payments  
-- ARTIST - View own schedule, client details
-- ADMIN - Manage artists, appointments, dashboard
-
-Core Business Module
-- TattooArtist → Appointment (full CRUD)
-- Service packages, artist portfolios
-
-System Integrations
-- External API (Weather for appointment date)
-- Google OAuth Login + custom JWT
-- File uploads (design refs, consent forms)
-- Stripe Sandbox Payments
-- Email notifications (SMTP)
-- Real-time updates (WebSocket)
-
-Database (7 tables)
-User → Role, Appointment ← TattooArtist, Service
-Appointment → Payment, FileAttachment, NotificationLog
+---
 
 ## Project Structure
 
+```
 IT342_InkSlot_G4_Leonardo/
-├── backend/ # Spring Boot API
-├── web/ # React SPA
-├── mobile/ # Future Flutter/React Native
-├── docs/ # Architecture, ERD, API docs
+├── backend/        # Spring Boot Maven project (Java 21)
+├── web/            # React + Vite web application
+├── mobile/         # Android Studio Kotlin project
+├── docs/           # SDD, ERD diagrams, wireframes
 └── README.md
+```
 
+---
 
+## Setup Instructions
 
-## Quick Start
+### Prerequisites
+- Java 21+
+- Node.js 18+ and npm
+- Maven 3.9+
+- PostgreSQL database (or Supabase account)
+- Android Studio (for mobile)
 
-Prerequisites
-- Java 17+
-- Node.js 18+
-- PostgreSQL
-- Stripe account (sandbox)
+---
 
+### Backend (Spring Boot)
 
-### Backend
+1. Navigate to the backend folder:
+   ```bash
+   cd backend
+   ```
 
-```bash
-cd backend
-./mvnw spring-boot:run
-API: http://localhost:8080
+2. Configure your database and JWT secret in `src/main/resources/application.properties`:
+   ```properties
+   spring.datasource.url=jdbc:postgresql://<your-db-host>:5432/postgres
+   spring.datasource.username=<your-username>
+   spring.datasource.password=<your-password>
+   jwt.secret=<your-jwt-secret>
+   ```
 
-### Frontend
+3. Build and run:
+   ```bash
+   mvn clean install -DskipTests
+   mvn spring-boot:run
+   ```
 
-bash
-cd web
-npm install
-npm run dev
-App: http://localhost:5173
+4. Backend runs on `http://localhost:8080`
 
+---
 
-### Documentation
+### Web Frontend (React)
 
-- Architecture - Layered Architecture
-- Database ERD - 7 tables
-- API Docs - Swagger/Postman
-- Requirements - IT342 checklist
+1. Navigate to the web folder:
+   ```bash
+   cd web
+   ```
 
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Configure the API base URL in `src/services/api.js` to point to your backend.
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+5. Frontend runs on `http://localhost:5173`
+
+---
+
+### Mobile (Android)
+
+1. Open the `mobile/` folder in Android Studio.
+2. Update the base URL in the Retrofit configuration to point to your backend.
+3. Run on an emulator or physical device with API Level 34.
+
+---
 
 ## API Endpoints
 
-| Method   | Endpoint                    | Role    | Description      |
-|----------|-----------------------------|---------|------------------|
-| POST     | /auth/register              | Public  | Create account   |
-| POST     | /auth/login                 | Public  | JWT login        |
-| POST     | /auth/google                | Public  | Google OAuth     |
-| GET      | /me                         | Auth    | Current user     |
-| GET/POST | /appointments               | Client  | List/book        |
-| POST     | /appointments/{id}/pay      | Client  | Stripe payment   |
-| POST     | /files/upload               | Auth    | Design upload    |
-| GET      | /admin/artists              | Admin   | Manage artists   |
+All endpoints are prefixed with `/api/v1`.
 
+### Authentication
 
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | `/auth/register` | Register a new artist account | Public |
+| POST | `/auth/login` | Login and receive JWT tokens | Public |
+| GET | `/auth/me` | Get authenticated user profile | Bearer JWT |
+| POST | `/auth/logout` | Invalidate refresh token | Bearer JWT |
+| GET | `/auth/google` | Initiate Google OAuth 2.0 flow | Public |
+| GET | `/auth/google/callback` | Handle OAuth callback; issue JWT | OAuth state |
 
-## Developer
-Leonardo - Full Stack Developer
+### Admin
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | `/admin/artists` | Create a new artist account | Bearer JWT (ADMIN) |
+| GET | `/admin/artists` | Get all artists | Bearer JWT (ADMIN) |
+| PATCH | `/admin/artists/:id/status` | Toggle artist active status | Bearer JWT (ADMIN) |
+| DELETE | `/admin/artists/:id` | Delete an artist account | Bearer JWT (ADMIN) |
+
+### Artists
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | `/artists` | List all active artists | Public |
+| GET | `/artists/:id` | Get artist profile | Public |
+| PUT | `/artists/:id/profile` | Update artist profile | Bearer JWT (ARTIST) |
+| POST | `/artists/:id/portfolio` | Add portfolio image | Bearer JWT (ARTIST) |
+| DELETE | `/artists/:id/portfolio/:imageId` | Delete portfolio image | Bearer JWT (ARTIST) |
+
+### Bookings
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | `/bookings` | Create a guest booking | Public |
+| GET | `/bookings/status/:referenceNumber` | Public booking status lookup | Public |
+| GET | `/artist/bookings` | Get artist's bookings | Bearer JWT (ARTIST) |
+| PATCH | `/artist/bookings/:id/status` | Update booking status | Bearer JWT (ARTIST) |
+
+---
+
+## Roles
+
+| Role | Access |
+|------|--------|
+| `ARTIST` | Artist dashboard, profile, portfolio, bookings |
+| `ADMIN` | Admin dashboard, manage all artists |
+| Guest | Browse artists, create bookings (no account needed) |
+
+---
+
+## Author
+
+**Leonardo, Natasha Kate Alavanza**
+
+IT342 — System Integration and Architecture
+Cebu Institute of Technology – University
