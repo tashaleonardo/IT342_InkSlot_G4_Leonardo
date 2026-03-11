@@ -72,6 +72,8 @@ const Login = () => {
             <h1>Welcome back</h1>
             <p>Sign in to your account</p>
           </div>
+          
+          
 
           {error && (
             <div className="login-error">
@@ -121,7 +123,14 @@ const Login = () => {
               )}
             </button>
           </form>
-
+          
+          <div className="login-divider">
+            <span>or</span>
+          </div>
+          <a href="http://localhost:8080/oauth2/authorization/google" className="google-btn">
+            <i className="fab fa-google"></i> Sign in with Google
+          </a>
+          
           <div className="login-footer">
             <Link to="/" className="login-back-link">
               <i className="fas fa-arrow-left"></i> Back to Booking
