@@ -1,0 +1,375 @@
+
+.ds-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: var(--font-family);
+  font-size: 1.2rem;
+  color: #fff;
+  background: var(--bg-primary);
+}
+
+.ds-root {
+  display: flex;
+  min-height: 100vh;
+  background: transparent;
+  position: relative;
+  z-index: 10;
+}
+
+.ds-sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.2rem;
+  position: sticky;
+  top: 0;
+  flex-shrink: 0;
+  z-index: 20;
+}
+
+.ds-sidebar-brand {
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #fff;
+  padding: 0.4rem 0.8rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1.8rem;
+}
+
+.ds-brand-ink {
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: 800;
+
+}
+
+.ds-brand-slot {
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 300;
+  font-size: 2.2rem;
+
+}
+
+/* Nav Items */
+.ds-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+}
+
+.ds-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.ds-nav-item i {
+  width: 18px;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.ds-nav-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ds-nav-active {
+  background: #fff !important;
+  color: #000 !important;
+  font-weight: 600;
+}
+
+.ds-nav-active i {
+  color: #000;
+}
+
+/* Sign Out */
+.ds-signout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.ds-signout:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ========================================
+   Main Content
+   ======================================== */
+.ds-main {
+  flex: 1;
+  padding: 2.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-width: 0;
+}
+
+/* Top Bar */
+.ds-topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.ds-page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.ds-page-sub {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 0.25rem;
+  font-weight: 400;
+}
+
+.ds-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+}
+
+/* ========================================
+   Stat Cards
+   ======================================== */
+.ds-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.ds-stat-card {
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 1.6rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  backdrop-filter: blur(8px);
+  transition: background 0.15s ease;
+}
+
+.ds-stat-card:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.ds-stat-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+}
+
+.ds-stat-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 500;
+}
+
+.ds-stat-value {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+.ds-stat-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 0.4rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-family);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  cursor: pointer;
+  width: fit-content;
+  transition: all 0.15s ease;
+}
+
+.ds-stat-cta:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.ds-stat-meta {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ds-stat-meta i {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ========================================
+   Today's Schedule
+   ======================================== */
+.ds-schedule-block {
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 1.6rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(8px);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.ds-schedule-info h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+
+.ds-schedule-info p {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.45);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.ds-schedule-badge {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 0.45rem 1.4rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 900px) {
+  .ds-sidebar {
+    width: 64px;
+    padding: 1.5rem 0.6rem;
+  }
+
+  .ds-sidebar-brand,
+  .ds-nav-item span,
+  .ds-signout span {
+    display: none;
+  }
+
+  .ds-nav-item {
+    justify-content: center;
+    padding: 0.8rem;
+  }
+
+  .ds-signout {
+    justify-content: center;
+    padding: 0.75rem;
+  }
+
+  .ds-main {
+    padding: 2rem 1.5rem;
+  }
+
+  .ds-stats-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .ds-stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ds-main {
+    padding: 1.5rem 1rem;
+  }
+}
+
+.ds-toast {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(50, 200, 100, 0.15);
+  border: 1px solid rgba(50, 200, 100, 0.35);
+  color: #6fdc9e;
+  padding: 0.75rem 1.4rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(8px);
+  animation: toast-in 0.3s ease forwards;
+  z-index: 999;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
