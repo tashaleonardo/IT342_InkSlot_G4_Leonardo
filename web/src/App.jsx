@@ -4,6 +4,8 @@ import PublicRoute from './components/PublicRoute';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import OAuth2Callback from './pages/OAuth2Callback';
+
 
 function App() {
   return (
@@ -41,8 +43,11 @@ function App() {
             }
           />
           
+          <Route path="/oauth2/callback" element={<OAuth2Callback />} />
+          
           {/* Catch all route - redirect to login */}
           <Route path="*" element={<Navigate to="/login" replace />} />
+
         </Routes>
       </div>
     </Router>
