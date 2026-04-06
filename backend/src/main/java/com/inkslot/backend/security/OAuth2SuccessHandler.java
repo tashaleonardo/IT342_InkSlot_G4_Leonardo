@@ -4,14 +4,12 @@ import com.inkslot.backend.entity.ArtistProfile;
 import com.inkslot.backend.entity.User;
 import com.inkslot.backend.repository.ArtistProfileRepository;
 import com.inkslot.backend.repository.UserRepository;
-import com.inkslot.backend.service.CustomUserDetailsService;
 import com.inkslot.backend.service.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -27,9 +25,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final UserRepository userRepository;
     private final ArtistProfileRepository artistProfileRepository;
     private final JwtService jwtService;
-    private final CustomUserDetailsService customUserDetailsService;
 
-    // Frontend URL to redirect to after successful OAuth login
     private static final String FRONTEND_URL = "http://localhost:5173";
 
     @Override
@@ -39,56 +35,50 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 
-        String email = oAuth2User.getAttribute("email");
-        String name = oAuth2User.getAttribute("name");
+        String email    = oAuth2User.getAttribute("email");
+        String name     = oAuth2User.getAttribute("name");
         String googleId = oAuth2User.getAttribute("sub");
 
-        log.info("OAuth2 login success for email: {}", email);
+        log.info("OAuth2 success for: {}", email);
 
-        // Find existing user or create new one
         User user = userRepository.findByEmail(email).orElse(null);
 
         if (user == null) {
-            // New user — create account
             user = new User();
             user.setEmail(email);
             user.setFullName(name);
             user.setGoogleId(googleId);
             user.setRole("ARTIST");
             user.setIsActive(true);
-            // No password for OAuth users
             user = userRepository.save(user);
 
-            // Create empty artist profile
-            ArtistProfile artistProfile = new ArtistProfile();
-            artistProfile.setUser(user);
-            artistProfileRepository.save(artistProfile);
+            ArtistProfile profile = new ArtistProfile();
+            profile.setUser(user);
+            artistProfileRepository.save(profile);
 
             log.info("New artist created via Google OAuth: {}", email);
-        } else {
-            // Existing user — link Google ID if not already linked
-            if (user.getGoogleId() == null) {
-                user.setGoogleId(googleId);
-                userRepository.save(user);
-                log.info("Linked Google account to existing user: {}", email);
-            }
+        } else if (user.getGoogleId() == null) {
+            user.setGoogleId(googleId);
+            userRepository.save(user);
+            log.info("Linked Google ID to existing user: {}", email);
         }
 
-        // Generate JWT
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
-        String accessToken = jwtService.generateToken(userDetails);
-        String refreshToken = jwtService.generateRefreshToken(userDetails);
+        // Adapter Pattern: wrap OAuth2User + User entity into a UserDetails-compatible adapter
+        // This bridges Google's OAuth2User interface with Spring Security's UserDetails,
+        // allowing jwtService.generateToken() to work without an extra DB lookup.
+        OAuth2UserAdapter adapter = new OAuth2UserAdapter(oAuth2User, user);
 
-        // Redirect to frontend with tokens as query params
-        String role = user.getRole();
+        String accessToken  = jwtService.generateToken(adapter);
+        String refreshToken = jwtService.generateRefreshToken(adapter);
+
         String redirectUrl = UriComponentsBuilder
                 .fromUriString(FRONTEND_URL + "/oauth2/callback")
                 .queryParam("token", accessToken)
                 .queryParam("refreshToken", refreshToken)
-                .queryParam("role", role)
+                .queryParam("role", user.getRole())
                 .build().toUriString();
 
-        log.info("Redirecting to frontend: {}", redirectUrl);
+        log.info("Redirecting to: {}", redirectUrl);
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }
 }
