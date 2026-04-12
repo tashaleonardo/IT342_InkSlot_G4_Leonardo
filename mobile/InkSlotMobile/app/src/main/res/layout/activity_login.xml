@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Root: FrameLayout lets us layer bubbles behind the form card -->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#050508">
+
+    <!-- ═══ Decorative bubble — top left ═══ -->
+    <View
+        android:layout_width="320dp"
+        android:layout_height="320dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="-80dp"
+        android:layout_marginTop="-80dp"
+        android:background="@drawable/bubble_large"
+        android:alpha="0.6" />
+
+    <!-- ═══ Decorative bubble — bottom right ═══ -->
+    <View
+        android:layout_width="420dp"
+        android:layout_height="420dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="-100dp"
+        android:layout_marginBottom="-100dp"
+        android:background="@drawable/bubble_large"
+        android:alpha="0.5" />
+
+    <!-- ═══ Decorative bubble — top right (small) ═══ -->
+    <View
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="top|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/bubble_medium"
+        android:alpha="0.4" />
+
+    <!-- ═══ Scrollable form ═══ -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingStart="28dp"
+            android:paddingEnd="28dp"
+            android:paddingTop="64dp"
+            android:paddingBottom="48dp">
+
+            <!-- ── INKSLOT Brand ── -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="48dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="INK"
+                    android:textSize="38sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:letterSpacing="0.04" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SLOT"
+                    android:textSize="38sp"
+                    android:textStyle="bold"
+                    android:textColor="#606080"
+                    android:letterSpacing="0.04" />
+
+            </LinearLayout>
+
+            <!-- ── Frosted glass form card ── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/card_bg"
+                android:padding="28dp">
+
+                <!-- Heading -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome back"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sign in to your account"
+                    android:textSize="14sp"
+                    android:textColor="#7070A0"
+                    android:layout_marginBottom="28dp" />
+
+                <!-- Error -->
+                <TextView
+                    android:id="@+id/tvError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#FF7070"
+                    android:textSize="13sp"
+                    android:visibility="gone"
+                    android:background="#15FF0000"
+                    android:padding="12dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center" />
+
+                <!-- Email label -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="EMAIL"
+                    android:textSize="11sp"
+                    android:textColor="#606080"
+                    android:letterSpacing="0.12"
+                    android:layout_marginBottom="6dp" />
+
+                <!-- Email input -->
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:inputType="textEmailAddress"
+                    android:hint="artist@inkslot.ph"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:background="@drawable/input_bg"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:layout_marginBottom="20dp" />
+
+                <!-- Password label -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="PASSWORD"
+                    android:textSize="11sp"
+                    android:textColor="#606080"
+                    android:letterSpacing="0.12"
+                    android:layout_marginBottom="6dp" />
+
+                <!-- Password input -->
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:inputType="textPassword"
+                    android:hint="Enter your password"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:background="@drawable/input_bg"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:layout_marginBottom="28dp" />
+
+                <!-- Login button -->
+                <Button
+                    android:id="@+id/btnLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:text="Log In"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/btn_white"
+                    android:stateListAnimator="@null"
+                    android:letterSpacing="0.02"
+                    android:layout_marginBottom="24dp" />
+
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#18FFFFFF"
+                    android:layout_marginBottom="24dp" />
+
+                <!-- Footer note -->
+                <TextView
+                    android:id="@+id/tvGoToRegister"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Don't have an account? Contact your admin."
+                    android:textColor="#50506A"
+                    android:textSize="13sp"
+                    android:layout_gravity="center_horizontal" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>
