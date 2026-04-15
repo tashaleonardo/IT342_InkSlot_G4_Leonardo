@@ -53,4 +53,15 @@ api.interceptors.response.use(
   }
 );
 
+// Public endpoints that don't require auth
+export const getPublicArtists = async () => {
+  try {
+    const response = await api.get('/artists');
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch artists:', error);
+    throw error;
+  }
+};
+
 export default api;

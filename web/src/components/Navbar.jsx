@@ -3,6 +3,7 @@ import { authService } from '../services/authService';
 
 const Navbar = () => {
   const isAuthenticated = authService.isAuthenticated();
+  const user = authService.getUser(); 
 
   const handleLogout = () => {
     authService.logout();

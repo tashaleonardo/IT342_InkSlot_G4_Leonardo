@@ -49,4 +49,21 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ApiResponse.error("SYSTEM-001", "Internal server error", ex.getMessage()));
     }
-}
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiResponse<Object>> handleRuntimeException(RuntimeException ex) {
+        if (ex.getMessage() != null && ex.getMessage().contains("not found")) {
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(ApiResponse.error("DB-001", ex.getMessage(), null));
+        }
+        if (ex.getMessage() != null && ex.getMessage().contains("Forbidden")) {
+            return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(ApiResponse.error("AUTH-003", "Access denied", null));
+        }
+        return ResponseEntity
+            .status(HttpStatus.UNPROCESSABLE_ENTITY)
+            .body(ApiResponse.error("BOOK-002", ex.getMessage(), null));
+    }
+}  

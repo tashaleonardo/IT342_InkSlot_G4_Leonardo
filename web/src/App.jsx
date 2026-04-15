@@ -5,6 +5,10 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import OAuth2Callback from './pages/OAuth2Callback';
+import HomePage from './pages/HomePage'; 
+import BookingsPage from './pages/BookingsPage';
+import GuestBookingPage from './pages/GuestBookingPage';
+import ArtistsPage from './pages/ArtistsPage';
 
 
 function App() {
@@ -12,10 +16,10 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          {/* Redirect root to login (but PublicRoute will handle redirect if already logged in) */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* Public home/booking page - no redirect! */}
+          <Route path="/" element={<HomePage />} />
           
-          {/* Public routes - wrapped with PublicRoute to redirect if already logged in */}
+          {/* Login route - PublicRoute handles redirect if already logged in */}
           <Route 
             path="/login" 
             element={
@@ -24,6 +28,10 @@ function App() {
               </PublicRoute>
             } 
           />
+          <Route path="/artists" element={<ArtistsPage />} />
+
+          {/* NEW: Guest booking route - public access */}
+          <Route path="/booking" element={<GuestBookingPage />} />
           
           {/* Private routes with role-based access control */}
           <Route
@@ -34,6 +42,17 @@ function App() {
               </PrivateRoute>
             }
           />
+          
+          {/* NEW: Artist bookings management route */}
+          <Route
+            path="/dashboard/bookings"
+            element={
+              <PrivateRoute requiredRole="ARTIST">
+                <BookingsPage />
+              </PrivateRoute>
+            }
+          />
+          
           <Route
             path="/admin/dashboard"
             element={
@@ -45,9 +64,8 @@ function App() {
           
           <Route path="/oauth2/callback" element={<OAuth2Callback />} />
           
-          {/* Catch all route - redirect to login */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
-
+          {/* Catch all route - redirect to home, not login */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </Router>
