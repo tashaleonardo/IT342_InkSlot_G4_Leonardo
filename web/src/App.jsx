@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute';
-import PublicRoute from './components/PublicRoute';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import AdminDashboard from './pages/AdminDashboard';
-import OAuth2Callback from './pages/OAuth2Callback';
-import HomePage from './pages/HomePage'; 
-import BookingsPage from './pages/BookingsPage';
-import GuestBookingPage from './pages/GuestBookingPage';
-import ArtistsPage from './pages/ArtistsPage';
+import PrivateRoute from './shared/components/PrivateRoute';
+import PublicRoute from './shared/components/PublicRoute';
+import Login from './features/auth/Login';
+import Dashboard from './features/dashboard/Dashboard';
+import AdminDashboard from './features/dashboard/AdminDashboard';
+import OAuth2Callback from './features/auth/OAuth2Callback';
+import HomePage from './features/home/HomePage';
+import BookingsPage from './features/booking/BookingsPage';
+import GuestBookingPage from './features/booking/GuestBookingPage';
+import ArtistsPage from './features/artists/ArtistsPage';
 
 
 function App() {
