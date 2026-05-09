@@ -35,6 +35,7 @@ build/
 ### Environment & Secrets ###
 application-dev.properties
 application-local.properties
+application-supabase.properties
 *.env
 .env
 .env.local
