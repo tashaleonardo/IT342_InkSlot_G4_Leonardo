@@ -40,6 +40,11 @@ public class BookingService {
 
     @Transactional
     public BookingResponse createBooking(BookingRequest req) {
+        LocalDate apptDate = LocalDate.parse(req.getAppointmentDate());
+        if (apptDate.isBefore(LocalDate.now())) {
+            throw new RuntimeException("Appointment date must be today or in the future");
+        }
+
         User artist = userRepository.findById(req.getArtistId())
             .orElseThrow(() -> new UsernameNotFoundException("Artist not found"));
 
@@ -49,7 +54,7 @@ public class BookingService {
         booking.setClientName(req.getClientName());
         booking.setClientEmail(req.getClientEmail());
         booking.setClientPhone(req.getClientPhone());
-        booking.setAppointmentDate(LocalDate.parse(req.getAppointmentDate()));
+        booking.setAppointmentDate(apptDate);
         booking.setAppointmentTime(LocalTime.parse(req.getAppointmentTime()));
         booking.setApproximateSize(req.getApproximateSize().toUpperCase());
         booking.setEstimatedDurationMinutes(resolveDuration(req.getApproximateSize()));
